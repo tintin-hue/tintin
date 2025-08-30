@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Letter</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .envelope {
+      position: relative;
+      width: 320px;   /* laki ng envelope */
+      height: 220px;
+      background: #fff;
+      border: 2px solid #e63946;
+      cursor: pointer;
+      perspective: 1000px;
+      margin-bottom: 20px;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #e63946;
+      clip-path: polygon(0 0, 100% 0, 50% 50%);
+      transform-origin: top;
+      transition: transform 0.6s ease;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(-180deg);
+    }
+
+    .letter {
+      display: none;
+      max-width: 90%;
+      padding: 20px;
+      border: 2px solid #e63946;
+      border-radius: 10px;
+      background: #fff;
+      font-size: 16px;
+      line-height: 1.6;
+      white-space: pre-line; /* para respetuhin yung line breaks */
+      overflow-y: auto;
+      max-height: 60vh;
+    }
+
+    .letter.show {
+      display: block;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+  </div>
+
+  <div class="letter" id="letter">
+    <p id="text"></p>
+  </div>
+
+  <script>
+    const envelope = document.getElementById("envelope");
+    const letter = document.getElementById("letter");
+    const text = document.getElementById("text");
+
+    const message = `to my special someone :>
+
+Even if u were never mine, u will always be the most special part of me. 
+I am still here, waiting… not because it’s easy, but because u are worth everything.
+
+no matter how long it takes, I’ll keep holding on. 
+Because some people are not just worth waiting for — they’re worth the whole lifetime.`;
+
+    let i = 0;
+
+    function typeWriter() {
+      if (i < message.length) {
+        text.innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 50); // speed ng typing
+      }
+    }
+
+    envelope.addEventListener("click", () => {
+      envelope.classList.toggle("open");
+      setTimeout(() => {
+        letter.classList.add("show");
+        typeWriter();
+      }, 600); // delay para sakto pag bukas ng flap
+    });
+  </script>
+
+</body>
+</html>
